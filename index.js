@@ -5,7 +5,6 @@ const app = express();
 
 app.get('/',(req,res)=>{
     res.sendFile(__dirname +'/index.html');
-    console.log(__dirname);
     perisitir();
     
 })

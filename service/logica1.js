@@ -22,15 +22,16 @@ const perisitir = (algo)=> {
     
       // Parsear el contenido del archivo
       let jsonData = JSON.parse(data);
-      console.log(typeof(jsonData));
-
       
       // Agregar los nuevos datos
-      Object.assign(jsonData, newData)
+      jsonData.persistiendo.push(newData)
       // Escribir el archivo actualizado
       fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => {
-        console.log('por si hay error :  null es que no hay = '+err);
+        if(err){
+          console.log('por si hay error :  null es que no hay = '+err);
+        }
         
-      })})
+      })
+    })
 }
 module.exports = perisitir
