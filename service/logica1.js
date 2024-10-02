@@ -5,8 +5,11 @@ const perisitir = (algo)=> {
 /*     fs.write(filePath, buffer, offset, length, position, callback); */
     
     // Ruta al archivo persista.json
-    const filePath = path.join(__dirname, 'data', 'persista.json');
-    
+    const raiz = path.resolve(__dirname,'..');
+
+    const filePath = path.join(raiz, 'data', 'persista.json');
+    console.log(process.cwd());
+     
     // Nuevos datos que quieres agregar
     const newData = { nombre: 'Tenis', precio: 200, otro: algo };
     
