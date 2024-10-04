@@ -1,37 +1,42 @@
-const fs = require('node:fs');
-const path = require('node:path');
-const perisitir = (algo)=> {
+const fs = require("node:fs");
+const path = require("node:path");
 
-/*     fs.write(filePath, buffer, offset, length, position, callback); */
-    
-    // Ruta al archivo persista.json
-    const raiz = path.resolve(__dirname,'..');
+const persistir = () => {
+  const raiz = path.resolve(__dirname, "..");
+  const filePath = path.join(raiz, "data", "persista.json");
 
-    const filePath = path.join(raiz, 'data', 'persista.json');
-    console.log(process.cwd());
-     
-    // Nuevos datos que quieres agregar
-    const newData = { nombre: 'Tenis', precio: 200, otro: algo };
-    
-    // Leer el archivo existente
-    fs.readFile(filePath, 'utf-8', (err, data) => {
+  // Nuevos datos que quieres agregar
+  const newData = { nombre: "Tenis", precio: 200 };
+
+  // Leer el archivo existente
+  fs.readFile(filePath, "utf-8", (err, data) => {
+    if (err) {
+      console.error("Error al leer el archivo", err);
+      return;
+    }
+
+    // Parsear el contenido del archivo
+    let jsonData;
+    try {
+      jsonData = JSON.parse(data);
+    } catch (parseErr) {
+      console.error("Error al parsear el archivo JSON", parseErr);
+      return;
+    }
+
+    // Agregar los nuevos datos
+    jsonData.deportes.push(newData);
+
+    // Escribir el archivo actualizado
+    fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => {
       if (err) {
-        console.error('Error al leer el archivo', err);
-        return;
+        console.log("Error al escribir el archivo", err);
+      } else {
+        console.log("Datos actualizados correctamente:", JSON.stringify(jsonData));
       }
-    
-      // Parsear el contenido del archivo
-      let jsonData = JSON.parse(data);
-      
-      // Agregar los nuevos datos
-      jsonData.persistiendo.push(newData)
-      // Escribir el archivo actualizado
-      fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => {
-        if(err){
-          console.log('por si hay error :  null es que no hay = '+err);
-        }
-        
-      })
-    })
-}
-module.exports = perisitir
+    });
+  });
+};
+
+
+module.exports = persistir;
